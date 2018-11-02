@@ -1,5 +1,7 @@
 --------------------Verification Needed------------------------
 
+Verify Color selection
+  https://ee-programming-notepad.blogspot.com/2016/10/16-bit-color-generator-picker.html
 
 -----------------------In Progress----------------------------
 
@@ -39,5 +41,9 @@ Fall_tetris()
   Check if tetris block created a complete row
   
   Remove row
+  
+  #define colors
+  
+  
   
   
