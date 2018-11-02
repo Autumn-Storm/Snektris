@@ -62,11 +62,8 @@ alt_up_pixel_buffer_dma_dev * pixel_buf_dma_dev;
 int main(void)
 {
 	pixel_buf_dma_dev = alt_up_pixel_buffer_dma_open_dev ("/dev/video_pixel_buffer_dma_0");
-
 	setup_game();
-
 	setup_snake();
-
 
 	while(1)
 	{
@@ -82,7 +79,6 @@ int main(void)
 			{
 				gamestate = fall_tetris();//move tetris block down every 1 second
 			}
-
 		}
 		else if(gamestate == 2)//game over
 		{
@@ -94,7 +90,6 @@ int main(void)
 			gamestate=move_snake();
 			usleep(gamespeed); //pause between moves
 		}
-
 	}
 	return 0;
 }
@@ -104,6 +99,42 @@ void setup_game(void)
 {
 	//reset screen
 	alt_up_pixel_buffer_dma_clear_screen (pixel_buf_dma_dev, 0); //clear screen
+	int a[12][15] = {
+	       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0} ,
+	       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	    };
+
+	    // 32x32
+	    // if assignment 0 then
+	    //
+	    for(int ic = 0; ic < 15; ic++){
+	        for(int ir = 0; ir < 12; ir++){
+	            // 0 is border, color white 0xFFFF
+	            if(a[ir][ic]==0){
+	            alt_up_pixel_buffer_dma_draw_rectangle(pixel_buf_dma_dev, ir, ic, ir+block_size, ic+block_size, 0xFFFF, 0);
+	                }
+	            if(a[ir][ic]==1){
+	            alt_up_pixel_buffer_dma_draw_rectangle(pixel_buf_dma_dev, ir, ic, ir+block_size, ic+block_size, snake_colour, 0);
+	            }
+	            if(a[ir][ic]==2){
+	            alt_up_pixel_buffer_dma_draw_rectangle(pixel_buf_dma_dev, ir, ic, ir+block_size, ic+block_size, backc, 0);
+	            }
+	            // gray if mouse 0x8C51
+	            if(a[ir][ic]==4){
+	            alt_up_pixel_buffer_dma_draw_rectangle(pixel_buf_dma_dev, ir, ic, ir+block_size, ic+block_size, 0x8C51, 0);
+	            }
+	        }
+	    }
 	//background color
 	//banners
 	//boarders
@@ -139,8 +170,6 @@ void setup_game(void)
 	//redraw placed tetris blocks
 
 	//place mouse
-
-
 }
 //initialize snake
 void setup_snake(void)
@@ -150,12 +179,11 @@ void setup_snake(void)
 	snake_yloc=448;
 	alt_up_pixel_buffer_dma_draw_rectangle(pixel_buf_dma_dev, snake_xloc, snake_yloc, snake_xloc+block_size, snake_yloc+block_size, snake_colour, 0);
 	snake_dir=2; //move at 180 deg (left)
-
 }
 //normal snake movement
 alt_u8 move_snake(void)
 {
-	alt_u8 next_gamestate; //0 = continue playing, 1 = tetris, 2 = game over
+	alt_u8 next_gamestate; //0 = continue playing, 1 = Tetris, 2 = game over
 	key01 = IORD_ALTERA_AVALON_PIO_DATA(KEY01_PIO_BASE);
 
 	//determine snake direction
@@ -175,9 +203,10 @@ alt_u8 move_snake(void)
 	}
 	else //no or all key press
 	{
-		snake_dir=snake_dir; //no direction change
+
 	}
 	/*game over?
+	 * is target block an allowed move?
 		yes -> next_gamestate = 2;
 	will snake land on mouse?
 		yes -> next_gamestate = 1;
