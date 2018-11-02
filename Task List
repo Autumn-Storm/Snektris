@@ -1,10 +1,13 @@
-FIRST:
+--------------------Verification Needed------------------------
+
+
+-----------------------In Progress----------------------------
+
   Assign all blocks on screen a number value in a 2D Array (x,y)
   
-Second: 
   Assign all bocks a function in the 2D array (banner, boarder, play area, old tetris blocks as 1, 2, 3etc)
 
---------------------No Particular Order----------------------------
+---------------------------TO DO-------------------------------
 
 setup_game() function: 
   draw block color depending on how it was assigned (boarder = 1 = brown, for example)
@@ -25,7 +28,6 @@ move_tetris()
 Fall_tetris()
   Needs to fall every 1 second - kind of taken care of in main
   Set up with new array play area layout
-  
   
  Misc:
   Check timing of usleep() functions to make sure they are accurate. I am not sure if system is running at 50 MHz or 10 MHz off of the PLL
