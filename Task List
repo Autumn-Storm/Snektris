@@ -10,6 +10,8 @@ Verify Color selection
   Assign all bocks a function in the 2D array (banner, boarder, play area, old tetris blocks as 1, 2, 3etc)
 
 ---------------------------TO DO-------------------------------
+create setup_round() function:
+  Reserve setup_game() for after post game-over situations or when the game first starts
 
 setup_game() function: 
   draw block color depending on how it was assigned (boarder = 1 = brown, for example)
