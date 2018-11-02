@@ -32,3 +32,12 @@ Fall_tetris()
  Misc:
   Check timing of usleep() functions to make sure they are accurate. I am not sure if system is running at 50 MHz or 10 MHz off of the PLL
   
+  Track location of old tetris blocks
+  
+  Redraw old tetris blocks
+  
+  Check if tetris block created a complete row
+  
+  Remove row
+  
+  
